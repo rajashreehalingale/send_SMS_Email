@@ -1,6 +1,7 @@
 const Express = require('express');
 const sendSMS = require('./models/sendSMS');
-const sendEmail = require('./models/sendEmail');
+const { sendEmail,
+  subscribeEmail } = require('./models/sendEmail');
 require('dotenv').config();
 
 const app = Express();
@@ -19,6 +20,13 @@ app.get('/email', (request, response) => {
   console.log("Subject = " + request.query.subject);
 
   const result = sendEmail.sendEmail(request.query.message, request.query.subject);
+  response.end(result);
+});
+
+app.get('/emailsubscribe', (request, response) => {
+  console.log("Email Subscribe = " + request.query.emailsubscribe);
+
+  const result = subscribeEmail('raj.sandeep.at@gmail.com'); // request.query.emailAddress);
   response.end(result);
 });
 
